@@ -7,8 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class MainTableViewController: UIViewController {
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureRootView()
@@ -29,8 +35,19 @@ class ViewController: UIViewController {
 
     @objc
     private func barButtonTapped() {
-        
+        navigationController?.pushViewController(MeasurementViewController(), animated: true)
     }
 
 }
 
+extension MainTableViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        return GyroDataCell()
+    }
+}
