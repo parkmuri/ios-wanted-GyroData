@@ -22,6 +22,8 @@ final class GyroDataCell: UITableViewCell {
     private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 10)
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -30,7 +32,6 @@ final class GyroDataCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -39,7 +40,6 @@ final class GyroDataCell: UITableViewCell {
     private let typeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title2)
-        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -47,16 +47,22 @@ final class GyroDataCell: UITableViewCell {
     
     private let timerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSubViews()
+        configureLayouts()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func configureSubViews() {
@@ -75,8 +81,13 @@ final class GyroDataCell: UITableViewCell {
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             contentStackView.trailingAnchor .constraint(equalTo: contentView.trailingAnchor),
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
-            
         ])
+    }
+    
+    func configureCell(with data: GyroDataModel) {
+        dateLabel.text = data.date.convertDate().description
+        typeLabel.text = data.type.title
+        timerLabel.text = data.timer.description
+        print(data)
     }
 }
